@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { addRecipe, removeFromCalendar } from '../actions'
 import { capitalize } from '../utils/helpers'
@@ -34,7 +34,6 @@ class App extends Component {
       food: null,
     }))
   }
-
   searchFood = (e) => {
     if (!this.input.value) {
       return
@@ -55,25 +54,26 @@ class App extends Component {
   generateShoppingList = () => {
     return this.props.calendar.reduce((result, { meals }) => {
       const { breakfast, lunch, dinner } = meals
-       breakfast && result.push(breakfast)
+
+      breakfast && result.push(breakfast)
       lunch && result.push(lunch)
       dinner && result.push(dinner)
 
-       return result
+      return result
     }, [])
     .reduce((ings, { ingredientLines }) => ings.concat(ingredientLines), [])
   }
 
-
+  
   render() {
-    const { foodModalOpen, loadingFood, food, ingredientsModalOpen  } = this.state
+    const { foodModalOpen, loadingFood, food, ingredientsModalOpen } = this.state
     const { calendar, selectRecipe, remove } = this.props
     const mealOrder = ['breakfast', 'lunch', 'dinner']
 
     return (
       <div className='container'>
 
-       <div className='nav'>
+        <div className='nav'>
           <h1 className='header'>UdaciMeals</h1>
           <button
             className='shopping-list'
@@ -81,7 +81,7 @@ class App extends Component {
               Shopping List
           </button>
         </div>
-      
+
         <ul className='meal-types'>
           {mealOrder.map((mealType) => (
             <li key={mealType} className='subheader'>
@@ -113,7 +113,7 @@ class App extends Component {
             ))}
           </div>
         </div>
-        
+
         <Modal
           className='modal'
           overlayClassName='overlay'
@@ -152,7 +152,7 @@ class App extends Component {
                 </div>}
           </div>
         </Modal>
-        
+
         <Modal
           className='modal'
           overlayClassName='overlay'
@@ -163,41 +163,36 @@ class App extends Component {
           {ingredientsModalOpen && <ShoppingList list={this.generateShoppingList()}/>}
         </Modal>
 
-
       </div>
-    );
+    )
   }
 }
 
-function mapStateToProps({calendar, food}){
+function mapStateToProps ({ food, calendar }) {
   const dayOrder = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']
 
   return {
-
     calendar: dayOrder.map((day) => ({
       day,
-      meals:Object.keys(calendar[day]).reduce((meals, meal) => {
-        meals[meal] = calendar[day][meal] 
-        ? food[calendar[day][meal]] 
-        : null
+      meals: Object.keys(calendar[day]).reduce((meals, meal) => {
+        meals[meal] = calendar[day][meal]
+          ? food[calendar[day][meal]]
+          : null
 
-      return meals 
+        return meals
       }, {})
     })),
-
   }
 }
 
-function mapDispatchToProps(dispatch){
-
+function mapDispatchToProps (dispatch) {
   return {
-    selectRecipe: (data) =>  dispatch(addRecipe(data)),
-    remove: (data) => dispatch(removeFromCalendar(data)),
+    selectRecipe: (data) => dispatch(addRecipe(data)),
+    remove: (data) => dispatch(removeFromCalendar(data))
   }
-
 }
 
 export default connect(
-  mapStateToProps, 
+  mapStateToProps,
   mapDispatchToProps
-  )(App);
+)(App)
