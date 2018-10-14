@@ -12,7 +12,7 @@ function food(state={}, action){
 
             return {
                 ...state,
-                [recipe]: recipe
+                [recipe.label]: recipe
             }
         default :
             return state    
